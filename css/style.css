@@ -195,3 +195,7 @@ footer p { margin: .35rem 0; max-width: 74ch; }
 footer code { font-family: var(--mono); font-size: .95em; color: #a9c4e4; }
 footer a { color: var(--accent); }
 .colophon { opacity: .8; }
+
+.badge.stale { color: #d29922; background: #2b2113; border-color: #4d3b16; }
+.disclaimer { color: #7d8899; font-style: italic; }
+footer p strong { color: var(--text); }

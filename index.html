@@ -100,14 +100,25 @@
 
 <footer>
   <p>
-    Data from the Yahoo Finance public chart API, refreshed by
-    <code>scripts/fetch_data.py</code>. Metrics (returns, volatility, moving
-    averages) are computed from one year of real daily closes.
-    <strong>For demonstration only — not investment advice.</strong>
+    <strong>This is real market data.</strong> Actual closing prices for
+    <span id="footCount">104</span> US-listed companies, pulled from the Yahoo Finance
+    public API. Returns, volatility and moving averages are computed from one year of
+    genuine daily closes — nothing here is simulated or placeholder.
+  </p>
+  <p>
+    It is a <strong>snapshot, not a live tick feed</strong>: prices are as of
+    <strong><span id="footAsOf">—</span></strong> (<span id="footAge">—</span>).
+    A browser can't call the market API directly — it sends no CORS header — so the data
+    is fetched ahead of time by <code>scripts/fetch_data.py</code> and served with the page.
+    That's the deliberate trade for a site with no server that can never go down.
+  </p>
+  <p class="disclaimer">
+    Provided for demonstration and educational purposes. Not investment advice.
   </p>
   <p class="colophon">
     SQLite compiled to WebAssembly via <a href="https://sql.js.org" rel="noopener">sql.js</a>,
     served as a static site. No backend, no API keys, nothing to go down.
+    <a href="https://github.com/KarashchenkoUstym/Updated-Stock-Screener" rel="noopener">Source</a>.
   </p>
 </footer>
 

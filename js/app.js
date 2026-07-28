@@ -69,8 +69,7 @@ async function boot() {
 
     $("engineBadge").textContent = `SQLite ${versionOf(state.db)} · WASM`;
     $("engineBadge").className = "badge ready";
-    $("dataBadge").textContent =
-      `${payload.count} stocks · ${String(payload.generated_at).slice(0, 10)}`;
+    showProvenance(payload);
 
     populateSectors(payload.stocks);
     renderPresets();
@@ -83,6 +82,32 @@ async function boot() {
     $("engineBadge").className = "badge error";
     setStatus(String(err && err.message || err), "err");
   }
+}
+
+/** Surface exactly how old the data is, in the header badge and the footer. */
+function showProvenance(payload) {
+  const when = new Date(payload.generated_at);
+  const hours = (Date.now() - when.getTime()) / 36e5;
+  const age =
+    hours < 1 ? "under an hour ago" :
+    hours < 24 ? `${Math.round(hours)} hour${Math.round(hours) === 1 ? "" : "s"} ago` :
+    `${Math.round(hours / 24)} day${Math.round(hours / 24) === 1 ? "" : "s"} ago`;
+
+  const stamp = when.toLocaleString(undefined, {
+    year: "numeric", month: "short", day: "numeric",
+    hour: "2-digit", minute: "2-digit", timeZoneName: "short",
+  });
+
+  const badge = $("dataBadge");
+  badge.textContent = `${payload.count} stocks · real prices · ${age}`;
+  badge.title = `Fetched ${stamp} from ${payload.source}`;
+  // Nudge the badge amber once the snapshot is over a week old.
+  if (hours > 168) badge.classList.add("stale");
+
+  const set = (id, text) => { const el = $(id); if (el) el.textContent = text; };
+  set("footCount", payload.count);
+  set("footAsOf", stamp);
+  set("footAge", age);
 }
 
 function versionOf(db) {
