@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Stock Screener — query the market in your browser</title>
+<meta name="description" content="A stock screener that runs real SQL against SQLite compiled to WebAssembly, entirely in the browser. No backend, no API keys.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◧</span>
+    <div>
+      <h1>SQL Stock Screener</h1>
+      <p class="tagline">Real SQL. Real market data. Running entirely in your browser.</p>
+    </div>
+  </div>
+  <div class="meta">
+    <span class="badge" id="engineBadge">loading SQLite…</span>
+    <span class="badge subtle" id="dataBadge">—</span>
+  </div>
+</header>
+
+<main>
+  <!-- ── Filters build SQL for you ─────────────────────────── -->
+  <section class="panel filters">
+    <div class="panel-head">
+      <h2>Filters</h2>
+      <button id="resetBtn" class="link-btn" type="button">reset</button>
+    </div>
+
+    <label>Sector
+      <select id="fSector"><option value="">Any</option></select>
+    </label>
+
+    <div class="row">
+      <label>Min price
+        <input type="number" id="fPriceMin" placeholder="0" min="0" step="1">
+      </label>
+      <label>Max price
+        <input type="number" id="fPriceMax" placeholder="∞" min="0" step="1">
+      </label>
+    </div>
+
+    <label>Min 1-year return (%)
+      <input type="number" id="fRet1y" placeholder="e.g. 10" step="1">
+    </label>
+
+    <label>Max volatility (% annualised)
+      <input type="number" id="fVol" placeholder="e.g. 30" min="0" step="1">
+    </label>
+
+    <label class="check">
+      <input type="checkbox" id="fAboveSma"> Trading above 200-day average
+    </label>
+
+    <label>Sort by
+      <select id="fSort">
+        <option value="change_1y DESC">1-year return ▼</option>
+        <option value="change_1y ASC">1-year return ▲</option>
+        <option value="change_1m DESC">1-month return ▼</option>
+        <option value="volatility ASC">Volatility ▲ (calmest)</option>
+        <option value="volatility DESC">Volatility ▼ (wildest)</option>
+        <option value="pct_off_high ASC">Furthest below 52w high</option>
+        <option value="price DESC">Price ▼</option>
+        <option value="symbol ASC">Symbol A–Z</option>
+      </select>
+    </label>
+
+    <div class="panel-head" style="margin-top:1.4rem">
+      <h2>Presets</h2>
+    </div>
+    <div class="presets" id="presets"></div>
+  </section>
+
+  <!-- ── The SQL itself, editable ──────────────────────────── -->
+  <section class="panel workspace">
+    <div class="panel-head">
+      <h2>SQL <span class="hint">— edit it, it's a real database</span></h2>
+      <button id="runBtn" class="run-btn" type="button">Run ⌘↵</button>
+    </div>
+    <textarea id="sql" spellcheck="false" aria-label="SQL query"></textarea>
+    <div id="status" class="status" role="status"></div>
+
+    <div class="results-head">
+      <h2 id="resultCount">Results</h2>
+      <button id="csvBtn" class="link-btn" type="button">export CSV</button>
+    </div>
+    <div class="table-wrap">
+      <table id="results">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>
+    Data from the Yahoo Finance public chart API, refreshed by
+    <code>scripts/fetch_data.py</code>. Metrics (returns, volatility, moving
+    averages) are computed from one year of real daily closes.
+    <strong>For demonstration only — not investment advice.</strong>
+  </p>
+  <p class="colophon">
+    SQLite compiled to WebAssembly via <a href="https://sql.js.org" rel="noopener">sql.js</a>,
+    served as a static site. No backend, no API keys, nothing to go down.
+  </p>
+</footer>
+
+<script src="vendor/sql-wasm.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

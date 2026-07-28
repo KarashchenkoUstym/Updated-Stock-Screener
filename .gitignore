@@ -1,0 +1,7 @@
+.DS_Store
+__pycache__/
+*.pyc
+
+# Temporarily excluded: pushing workflows needs the `workflow` OAuth scope.
+# Re-enable with:  gh auth refresh -s workflow  (see README)
+.github/
