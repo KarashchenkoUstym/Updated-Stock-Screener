@@ -4,7 +4,7 @@ Screen ~100 US large-caps by writing **real SQL** — executed by **SQLite compi
 WebAssembly, running entirely in the browser**. There is no backend, no API key, and no
 database server: the whole application is static files.
 
-**[Live demo →](https://USERNAME.github.io/stock-screener/)** *(update this link after deploying)*
+**[Live demo → karashchenkoustym.github.io/Updated-Stock-Screener](https://karashchenkoustym.github.io/Updated-Stock-Screener/)**
 
 ![Static site](https://img.shields.io/badge/hosting-static-blue)
 ![No backend](https://img.shields.io/badge/backend-none-green)
@@ -65,12 +65,26 @@ A web server is required — `file://` won't work, because the browser blocks
 
 1. Push this folder to a repository.
 2. Settings → Pages → Source: *Deploy from a branch* → `main` / `root`.
-3. Done. Live at `https://USERNAME.github.io/REPO/`.
+3. Done. Live at `https://karashchenkoustym.github.io/Updated-Stock-Screener/`.
 
 **Hugging Face Spaces** — create a Space with SDK **Static**, push these files.
 Static Spaces don't sleep. (Docker/Gradio Spaces *do* idle out — avoid those here.)
 
 Both are free and serve static files indefinitely.
+
+## Enabling the scheduled data refresh
+
+`.github/workflows/refresh-data.yml` exists in this folder but is **not yet pushed** —
+GitHub rejects workflow files from a token without the `workflow` OAuth scope. To enable it:
+
+```bash
+gh auth refresh -s workflow          # one-time, opens a browser
+# then remove the ".github/" line from .gitignore and:
+git add -f .github/workflows/refresh-data.yml && git commit -m "ci: scheduled data refresh" && git push
+```
+
+Until then the dataset is simply whatever was last committed — the site still works, the
+numbers just don't move.
 
 ## Layout
 
