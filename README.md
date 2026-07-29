@@ -111,9 +111,9 @@ otherwise take the site down, which defeats the point.
 - Query errors are surfaced verbatim from SQLite and **previous results are preserved**,
   so a typo doesn't wipe your screen.
 
-## Disclaimer
+## Author
 
-For demonstration and educational purposes. Not investment advice.
+Built by **Ustym Karashchenko** — [GitHub](https://github.com/KarashchenkoUstym)
 
 ## Licence
 

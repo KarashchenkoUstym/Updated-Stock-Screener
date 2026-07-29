@@ -197,5 +197,6 @@ footer a { color: var(--accent); }
 .colophon { opacity: .8; }
 
 .badge.stale { color: #d29922; background: #2b2113; border-color: #4d3b16; }
-.disclaimer { color: #7d8899; font-style: italic; }
+.byline { margin-top: .9rem; color: #7d8899; font-size: .76rem; }
+.byline strong { color: var(--text); }
 footer p strong { color: var(--text); }
