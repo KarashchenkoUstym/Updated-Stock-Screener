@@ -72,19 +72,15 @@ Static Spaces don't sleep. (Docker/Gradio Spaces *do* idle out — avoid those h
 
 Both are free and serve static files indefinitely.
 
-## Enabling the scheduled data refresh
+## Automatic data refresh
 
-`.github/workflows/refresh-data.yml` exists in this folder but is **not yet pushed** —
-GitHub rejects workflow files from a token without the `workflow` OAuth scope. To enable it:
+`.github/workflows/refresh-data.yml` re-runs the fetch script on GitHub's runners
+every weekday at 22:30 UTC (after the US close), then commits the result — Pages
+redeploys automatically. It can also be triggered on demand from the Actions tab.
 
-```bash
-gh auth refresh -s workflow          # one-time, opens a browser
-# then remove the ".github/" line from .gitignore and:
-git add -f .github/workflows/refresh-data.yml && git commit -m "ci: scheduled data refresh" && git push
-```
-
-Until then the dataset is simply whatever was last committed — the site still works, the
-numbers just don't move.
+The job **refuses to commit a thin or broken dataset**: it aborts if fewer than 80
+symbols came back, or if any symbol is missing a price. A bad upstream response
+leaves the previous good data in place rather than publishing a broken screener.
 
 ## Layout
 
