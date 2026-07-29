@@ -1,0 +1,46 @@
+name: Refresh market data
+
+# Keeps data/stocks.json current without any server: the Action re-runs the
+# fetch script on a schedule and commits the result, GitHub Pages redeploys.
+on:
+  schedule:
+    - cron: "30 22 * * 1-5"   # 22:30 UTC, weekdays — after the US close
+  workflow_dispatch:           # ...and on demand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch latest prices
+        run: python3 scripts/fetch_data.py
+
+      - name: Sanity-check the dataset before committing
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("data/stocks.json"))
+          if d["count"] < 80:
+              sys.exit(f"Only {d['count']} stocks fetched - refusing to commit a thin dataset.")
+          missing = [s["symbol"] for s in d["stocks"] if s.get("price") in (None, 0)]
+          if missing:
+              sys.exit(f"Missing prices for: {missing}")
+          print(f"OK - {d['count']} stocks, generated {d['generated_at']}")
+          PY
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/stocks.json
+          git diff --staged --quiet && echo "No change." && exit 0
+          git commit -m "chore: refresh market data $(date -u +%Y-%m-%d)"
+          git push
