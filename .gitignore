@@ -2,6 +2,6 @@
 __pycache__/
 *.pyc
 
-# Temporarily excluded: pushing workflows needs the `workflow` OAuth scope.
-# Re-enable with:  gh auth refresh -s workflow  (see README)
+# Excluded until the token has `workflow` scope (see README).
 .github/
+
