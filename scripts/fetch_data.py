@@ -60,7 +60,7 @@ UNIVERSE = {
     "T": ("AT&T Inc.", "Communication Services"),
     "VZ": ("Verizon Communications Inc.", "Communication Services"),
     "TMUS": ("T-Mobile US, Inc.", "Communication Services"),
-    "EA": ("Electronic Arts Inc.", "Communication Services"),
+    "TTWO": ("Take-Two Interactive Software, Inc.", "Communication Services"),
     "SPOT": ("Spotify Technology S.A.", "Communication Services"),
 
     "AMZN": ("Amazon.com, Inc.", "Consumer Discretionary"),

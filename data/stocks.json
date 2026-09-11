@@ -1,7 +1,7 @@
 {
- "generated_at": "2026-09-11T20:38:02+00:00",
+ "generated_at": "2026-09-11T20:53:56+00:00",
  "source": "Yahoo Finance v8 chart API",
- "count": 103,
+ "count": 104,
  "stocks": [
   {
    "symbol": "AAPL",
@@ -1490,6 +1490,22 @@
    "avg_volume": 36795931,
    "sma50": 354.5,
    "sma200": 398.93
+  },
+  {
+   "symbol": "TTWO",
+   "name": "Take-Two Interactive Software, Inc.",
+   "sector": "Communication Services",
+   "price": 215.47,
+   "change_1m": -10.93,
+   "change_3m": 1.76,
+   "change_1y": -12.5,
+   "high_52w": 265.94,
+   "low_52w": 187.63,
+   "pct_off_high": -18.98,
+   "volatility": 32.39,
+   "avg_volume": 2558275,
+   "sma50": 237.09,
+   "sma200": 227.42
   },
   {
    "symbol": "TXN",
