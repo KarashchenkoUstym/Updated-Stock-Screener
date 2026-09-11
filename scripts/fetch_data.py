@@ -22,6 +22,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent.parent / "data" / "stocks.json"
+# Daily closes for the detail chart. Kept in a separate file so the screener's
+# first load stays small; the app fetches it only when a stock is opened.
+HISTORY_OUT = OUT.parent / "history.json"
 CHART = "https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1y&interval=1d"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 stock-screener/1.0"
 
@@ -205,12 +208,35 @@ def derive(symbol, payload):
     }
 
 
+def history(payload):
+    """Map ISO trading date -> close for every bar that has a close."""
+    result = payload["chart"]["result"][0]
+    closes = result["indicators"]["quote"][0].get("close") or []
+    return {
+        datetime.fromtimestamp(ts, timezone.utc).date().isoformat(): round(c, 2)
+        for ts, c in zip(result.get("timestamp") or [], closes)
+        if c is not None
+    }
+
+
+def write_history(series):
+    """One shared date axis plus aligned closes per symbol - far smaller than
+    repeating dates for all ~100 symbols."""
+    dates = sorted({d for s in series.values() for d in s})
+    HISTORY_OUT.write_text(json.dumps({
+        "dates": dates,
+        "closes": {sym: [s.get(d) for d in dates] for sym, s in sorted(series.items())},
+    }, separators=(",", ":")))
+
+
 def main():
-    rows, failed = [], []
+    rows, failed, series = [], [], {}
     total = len(UNIVERSE)
     for i, symbol in enumerate(UNIVERSE, 1):
         try:
-            rows.append(derive(symbol, fetch(symbol)))
+            payload = fetch(symbol)
+            rows.append(derive(symbol, payload))
+            series[symbol] = history(payload)
             print(f"[{i}/{total}] {symbol}", flush=True)
         except (urllib.error.URLError, KeyError, IndexError, ValueError, TypeError) as e:
             failed.append(symbol)
@@ -227,7 +253,8 @@ def main():
         "count": len(rows),
         "stocks": sorted(rows, key=lambda r: r["symbol"]),
     }, indent=1))
-    print(f"\nWrote {len(rows)} stocks to {OUT}")
+    write_history(series)
+    print(f"\nWrote {len(rows)} stocks to {OUT} and history to {HISTORY_OUT.name}")
     if failed:
         print(f"Failed ({len(failed)}): {', '.join(failed)}")
 

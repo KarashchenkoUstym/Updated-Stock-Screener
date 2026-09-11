@@ -4,105 +4,304 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SQL Stock Screener — query the market in your browser</title>
-<meta name="description" content="A stock screener that runs real SQL against SQLite compiled to WebAssembly, entirely in the browser. No backend, no API keys.">
+<meta name="description" content="Screen 100+ US large-caps with real SQL. SQLite runs in your browser via WebAssembly on daily-refreshed prices — no signup, no API key, no server.">
+<link rel="canonical" href="https://karashchenkoustym.github.io/Updated-Stock-Screener/">
+<meta name="theme-color" content="#F3EEE3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12110F" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SQL Stock Screener — query the market in your browser">
+<meta property="og:description" content="Real SQL against real, daily-refreshed prices for 100+ US stocks. SQLite compiled to WebAssembly — nothing to install, nothing to sign up for.">
+<meta property="og:url" content="https://karashchenkoustym.github.io/Updated-Stock-Screener/">
+<meta property="og:image" content="https://karashchenkoustym.github.io/Updated-Stock-Screener/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/ibm-plex-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/style.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+<script>
+  // Apply a saved theme before first paint so there's no flash.
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch {}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SQL Stock Screener",
+  "url": "https://karashchenkoustym.github.io/Updated-Stock-Screener/",
+  "description": "A stock screener that runs real SQL against SQLite compiled to WebAssembly, entirely in the browser, on daily-refreshed prices for 100+ US large-caps.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "Ustym Karashchenko", "url": "https://github.com/KarashchenkoUstym" }
+}
+</script>
 </head>
 <body>
+<a class="skip-link" href="#sql">Skip to the SQL editor</a>
 
-<header class="topbar">
-  <div class="brand">
-    <span class="logo">◧</span>
-    <div>
-      <h1>SQL Stock Screener</h1>
-      <p class="tagline">Real SQL. Real market data. Running entirely in your browser.</p>
+<header class="masthead">
+  <div class="container">
+    <div class="mast-top reveal" style="--d:0">
+      <span class="dateline" id="dateline">Markets edition</span>
+      <div class="mast-actions">
+        <a class="btn" href="https://github.com/KarashchenkoUstym/Updated-Stock-Screener" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.83 1.23.83.72 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.66 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg>
+          Source
+        </a>
+        <button class="btn btn-icon" id="themeBtn" type="button" aria-label="Switch to night edition">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm0 1.5v10a5 5 0 0 1 0-10Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mast-body">
+      <div class="reveal" style="--d:1">
+        <h1 class="title">
+          <svg class="mark" viewBox="0 0 48 48" aria-hidden="true">
+            <rect x="1.5" y="1.5" width="45" height="45" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M10 36h28" stroke="currentColor" stroke-width="2.5"/>
+            <rect x="12" y="24" width="6" height="12" fill="currentColor"/>
+            <rect x="21" y="17" width="6" height="19" fill="currentColor"/>
+            <rect x="30" y="10" width="6" height="26" fill="var(--accent)"/>
+          </svg>
+          <span>SQL Stock <em>Screener</em></span>
+        </h1>
+        <p class="standfirst">
+          Find the stocks that fit your idea — momentum leaders, beaten-down names, the calmest
+          performers — by writing <strong>real SQL</strong> against <strong>real, daily-refreshed prices</strong>.
+          The database runs in your browser, so every query answers in milliseconds.
+        </p>
+      </div>
+      <div class="badges reveal" style="--d:2">
+        <span class="badge" id="engineBadge">loading SQLite…</span>
+        <span class="badge" id="dataBadge">loading data…</span>
+      </div>
     </div>
   </div>
-  <div class="meta">
-    <span class="badge" id="engineBadge">loading SQLite…</span>
-    <span class="badge subtle" id="dataBadge">—</span>
+
+  <div class="ticker" id="ticker" hidden>
+    <button class="ticker-pause" id="tickerPause" type="button"><svg viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2 1h3v10H2zM7 1h3v10H7z"/></svg> Pause</button>
+    <div class="ticker-track">
+      <ul id="tickerList" aria-label="Biggest one-month moves"></ul>
+      <ul id="tickerClone" aria-hidden="true"></ul>
+    </div>
   </div>
 </header>
 
-<main>
-  <!-- ── Filters build SQL for you ─────────────────────────── -->
-  <section class="panel filters">
+<main class="container layout" id="main">
+  <!-- ── Sidebar: filters build SQL; tabs feed the editor ── -->
+  <aside class="sidebar panel reveal" style="--d:3" aria-label="Filters and query helpers">
+    <details class="filters" id="filters" open>
+      <summary>
+        <h2 class="h2">Filters</h2>
+        <svg class="chev" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+      </summary>
+      <div class="filters-body">
+        <label class="field"><span class="label">Sector</span>
+          <select id="fSector"><option value="">All sectors</option></select>
+        </label>
+        <div class="field-row">
+          <label class="field"><span class="label">Min price $</span>
+            <input type="number" id="fPriceMin" name="price_min" autocomplete="off" placeholder="0…" min="0" step="1" inputmode="decimal">
+          </label>
+          <label class="field"><span class="label">Max price $</span>
+            <input type="number" id="fPriceMax" name="price_max" autocomplete="off" placeholder="Any…" min="0" step="1" inputmode="decimal">
+          </label>
+        </div>
+        <label class="field"><span class="label">Min 1-year return %</span>
+          <input type="number" id="fRet1y" name="min_return_1y" autocomplete="off" placeholder="e.g. 10…" step="1" inputmode="decimal">
+        </label>
+        <label class="field"><span class="label">Max volatility % (annualised)</span>
+          <input type="number" id="fVol" name="max_volatility" autocomplete="off" placeholder="e.g. 30…" min="0" step="1" inputmode="decimal">
+        </label>
+        <label class="check">
+          <input type="checkbox" id="fAboveSma"> Trading above its 200-day average
+        </label>
+        <label class="field"><span class="label">Sort by</span>
+          <select id="fSort">
+            <option value="change_1y DESC">1-year return, highest first</option>
+            <option value="change_1y ASC">1-year return, lowest first</option>
+            <option value="change_1m DESC">1-month return, highest first</option>
+            <option value="volatility ASC">Volatility, calmest first</option>
+            <option value="volatility DESC">Volatility, wildest first</option>
+            <option value="pct_off_high ASC">Furthest below 52-week high</option>
+            <option value="price DESC">Price, highest first</option>
+            <option value="symbol ASC">Symbol A–Z</option>
+          </select>
+        </label>
+        <button id="resetBtn" class="text-btn" type="button">Reset filters</button>
+      </div>
+    </details>
+
+    <details class="filters helpers" id="helpers" open>
+    <summary>
+      <h2 class="h2">Presets &amp; columns</h2>
+      <svg class="chev" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    </summary>
+    <div class="tabs">
+      <div class="tablist" role="tablist" aria-label="Query helpers">
+        <button class="tab" role="tab" id="tab-presets" aria-controls="panel-presets" aria-selected="true" type="button">Presets</button>
+        <button class="tab" role="tab" id="tab-columns" aria-controls="panel-columns" aria-selected="false" tabindex="-1" type="button">Columns</button>
+        <button class="tab" role="tab" id="tab-history" aria-controls="panel-history" aria-selected="false" tabindex="-1" type="button">History</button>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="panel-presets" aria-labelledby="tab-presets" tabindex="0">
+        <ul class="list" id="presets"></ul>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="panel-columns" aria-labelledby="tab-columns" tabindex="0" hidden>
+        <p class="panel-note">Table <code>stocks</code> — one row per company. Select a column to insert it at the cursor.</p>
+        <ul class="list" id="columns">
+          <li><button class="list-btn" type="button" data-col="symbol"><span class="col-type">text</span><span class="col-name">symbol</span><span class="list-note">Ticker, e.g. AAPL. Primary key.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="name"><span class="col-type">text</span><span class="col-name">name</span><span class="list-note">Company name.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="sector"><span class="col-type">text</span><span class="col-name">sector</span><span class="list-note">One of the 11 GICS sectors, e.g. 'Health Care'.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="price"><span class="col-type">real</span><span class="col-name">price</span><span class="list-note">Latest close in US dollars.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="change_1m"><span class="col-type">real %</span><span class="col-name">change_1m</span><span class="list-note">Return over the last ~21 trading days.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="change_3m"><span class="col-type">real %</span><span class="col-name">change_3m</span><span class="list-note">Return over the last ~63 trading days.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="change_1y"><span class="col-type">real %</span><span class="col-name">change_1y</span><span class="list-note">Return over the last year.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="high_52w"><span class="col-type">real</span><span class="col-name">high_52w</span><span class="list-note">Highest price in the last 52 weeks.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="low_52w"><span class="col-type">real</span><span class="col-name">low_52w</span><span class="list-note">Lowest price in the last 52 weeks.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="pct_off_high"><span class="col-type">real %</span><span class="col-name">pct_off_high</span><span class="list-note">How far below the 52-week high. −25 means 25% under it.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="volatility"><span class="col-type">real %</span><span class="col-name">volatility</span><span class="list-note">How much the price swings: yearly standard deviation of daily returns. Under 25 is calm, over 50 is wild.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="avg_volume"><span class="col-type">int</span><span class="col-name">avg_volume</span><span class="list-note">Average shares traded per day over 30 days.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="sma50"><span class="col-type">real</span><span class="col-name">sma50</span><span class="list-note">Average close of the last 50 days — the short-term trend.</span></button></li>
+          <li><button class="list-btn" type="button" data-col="sma200"><span class="col-type">real</span><span class="col-name">sma200</span><span class="list-note">Average close of the last 200 days — the long-term trend. <code>sma50 &gt; sma200</code> is a “golden cross”.</span></button></li>
+        </ul>
+      </div>
+
+      <div class="tabpanel" role="tabpanel" id="panel-history" aria-labelledby="tab-history" tabindex="0" hidden>
+        <div class="panel-head" style="margin:8px 0 0">
+          <span class="label">Saved in this browser</span>
+          <button id="clearHistoryBtn" class="text-btn" type="button">Clear</button>
+        </div>
+        <ul class="list" id="history"></ul>
+      </div>
+    </div>
+    </details>
+  </aside>
+
+  <!-- ── Workspace: the SQL itself, then the results ── -->
+  <section class="workspace panel reveal" style="--d:4" aria-labelledby="queryHeading">
     <div class="panel-head">
-      <h2>Filters</h2>
-      <button id="resetBtn" class="link-btn" type="button">reset</button>
+      <h2 class="h2" id="queryHeading">Query</h2>
+      <div class="ws-actions">
+        <button id="shareBtn" class="btn" type="button">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M6.5 9.5a3 3 0 0 0 4.2 0l2.3-2.3a3 3 0 0 0-4.2-4.2l-.9.9M9.5 6.5a3 3 0 0 0-4.2 0L3 8.8A3 3 0 0 0 7.2 13l.9-.9"/></svg>
+          Copy link
+        </button>
+        <button id="runBtn" class="btn btn-primary" type="button" aria-describedby="editorHint">Run query <kbd id="runKbd">⌘↵</kbd></button>
+      </div>
     </div>
 
-    <label>Sector
-      <select id="fSector"><option value="">Any</option></select>
-    </label>
-
-    <div class="row">
-      <label>Min price
-        <input type="number" id="fPriceMin" placeholder="0" min="0" step="1">
-      </label>
-      <label>Max price
-        <input type="number" id="fPriceMax" placeholder="∞" min="0" step="1">
-      </label>
+    <label for="sql" class="visually-hidden">SQL query against the stocks table</label>
+    <div class="editor" translate="no">
+      <pre class="editor-hl" id="sqlHl" aria-hidden="true"><code></code></pre>
+      <textarea id="sql" class="editor-input" spellcheck="false" autocapitalize="off" autocomplete="off"
+        aria-autocomplete="list" aria-controls="acMenu" aria-describedby="editorHint"></textarea>
+      <ul class="ac-menu" id="acMenu" role="listbox" aria-label="Suggestions" hidden></ul>
     </div>
-
-    <label>Min 1-year return (%)
-      <input type="number" id="fRet1y" placeholder="e.g. 10" step="1">
-    </label>
-
-    <label>Max volatility (% annualised)
-      <input type="number" id="fVol" placeholder="e.g. 30" min="0" step="1">
-    </label>
-
-    <label class="check">
-      <input type="checkbox" id="fAboveSma"> Trading above 200-day average
-    </label>
-
-    <label>Sort by
-      <select id="fSort">
-        <option value="change_1y DESC">1-year return ▼</option>
-        <option value="change_1y ASC">1-year return ▲</option>
-        <option value="change_1m DESC">1-month return ▼</option>
-        <option value="volatility ASC">Volatility ▲ (calmest)</option>
-        <option value="volatility DESC">Volatility ▼ (wildest)</option>
-        <option value="pct_off_high ASC">Furthest below 52w high</option>
-        <option value="price DESC">Price ▼</option>
-        <option value="symbol ASC">Symbol A–Z</option>
-      </select>
-    </label>
-
-    <div class="panel-head" style="margin-top:1.4rem">
-      <h2>Presets</h2>
+    <div class="editor-foot">
+      <div id="status" class="status" role="status"></div>
+      <span class="hint" id="editorHint"><kbd>Ctrl</kbd>+<kbd>Space</kbd> suggests columns · <kbd>⌘</kbd>/<kbd>Ctrl</kbd>+<kbd>↵</kbd> runs</span>
     </div>
-    <div class="presets" id="presets"></div>
-  </section>
-
-  <!-- ── The SQL itself, editable ──────────────────────────── -->
-  <section class="panel workspace">
-    <div class="panel-head">
-      <h2>SQL <span class="hint">— edit it, it's a real database</span></h2>
-      <button id="runBtn" class="run-btn" type="button">Run ⌘↵</button>
-    </div>
-    <textarea id="sql" spellcheck="false" aria-label="SQL query"></textarea>
-    <div id="status" class="status" role="status"></div>
 
     <div class="results-head">
-      <h2 id="resultCount">Results</h2>
-      <button id="csvBtn" class="link-btn" type="button">export CSV</button>
+      <h2 class="h2" id="resultsHeading">Results<span class="count" id="resultCount"></span></h2>
+      <button id="csvBtn" class="btn" type="button">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M8 2v8m0 0 3-3m-3 3L5 7M3 12v2h10v-2"/></svg>
+        Export CSV
+      </button>
     </div>
-    <div class="table-wrap">
+    <div class="table-wrap" role="region" aria-labelledby="resultsHeading" tabindex="0">
       <table id="results">
         <thead></thead>
-        <tbody></tbody>
+        <tbody><tr><td class="empty">Loading the database…</td></tr></tbody>
       </table>
     </div>
+    <noscript><p class="empty">The screener needs JavaScript and WebAssembly to run SQLite in your browser.</p></noscript>
   </section>
 </main>
 
-<footer>
-  <p class="byline">Built by Ustym Karashchenko</p>
+<footer class="colophon">
+  <div class="container">
+    <div class="colophon-grid">
+      <section>
+        <h2>Real SQL, in your browser</h2>
+        <p>This page loads <strong>SQLite compiled to WebAssembly</strong> and builds a table of stocks locally. Filters and presets only write SQL for you — you can edit any query, use <code>GROUP BY</code>, maths and <code>LIMIT</code>, and see SQLite’s own error messages.</p>
+      </section>
+      <section>
+        <h2>Real prices, refreshed daily</h2>
+        <p>A GitHub Action pulls a year of daily closes from Yahoo Finance after every US market close and computes each metric from those prices. The data is a <strong>snapshot, not a live feed</strong> — at most one trading day old. It’s for exploring ideas, not investment advice.</p>
+      </section>
+      <section>
+        <h2>Built to stay up</h2>
+        <p>No backend, no database server, no API key and no CDN: the site is plain static files, including the SQLite engine and fonts. There’s nothing that can sleep, cold-start or go down.</p>
+      </section>
+    </div>
+    <div class="byline">
+      <span>Built by <a href="https://github.com/KarashchenkoUstym" rel="noopener">Ustym Karashchenko</a></span>
+      <span id="footAsOf"></span>
+    </div>
+  </div>
 </footer>
 
+<!-- ── Per-stock detail ── -->
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerName" hidden>
+  <div class="drawer-top">
+    <span class="drawer-sym" id="drawerSym"></span>
+    <button class="btn btn-icon" id="drawerClose" type="button" aria-label="Close stock details">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3.5l9 9m0-9-9 9" stroke="currentColor" stroke-width="1.6"/></svg>
+    </button>
+  </div>
+  <h2 id="drawerName"></h2>
+  <p class="drawer-sector" id="drawerSector"></p>
+  <div class="drawer-price">
+    <span class="px" id="drawerPrice"></span>
+    <span class="chg" id="drawerChg"></span>
+    <span class="asof" id="drawerAsof"></span>
+  </div>
+
+  <div class="range-toggle" role="group" aria-label="Chart range">
+    <button type="button" data-range="21" aria-pressed="false">1M</button>
+    <button type="button" data-range="63" aria-pressed="false">3M</button>
+    <button type="button" data-range="126" aria-pressed="false">6M</button>
+    <button type="button" data-range="0" aria-pressed="true">1Y</button>
+  </div>
+  <figure class="chart" id="chart" style="margin:0">
+    <figcaption class="visually-hidden" id="chartCaption"></figcaption>
+  </figure>
+  <ul class="legend">
+    <li><i class="k-price"></i>Close</li>
+    <li><i class="k-sma50"></i>50-day average</li>
+    <li><i class="k-sma200"></i>200-day average</li>
+  </ul>
+
+  <div class="range52">
+    <span class="label">52-week range</span>
+    <div class="bar"><span class="dot" id="range52Dot"></span></div>
+    <div class="ends"><span id="range52Lo"></span><span id="range52Hi"></span></div>
+  </div>
+
+  <dl class="stats" id="drawerStats"></dl>
+
+  <div class="drawer-actions">
+    <button class="btn" type="button" id="qSector">Compare with its sector <span aria-hidden="true">→</span></button>
+    <button class="btn" type="button" id="qSimilar">Find stocks with similar volatility <span aria-hidden="true">→</span></button>
+  </div>
+  <p class="drawer-note">Daily closes from Yahoo Finance. Moving averages are computed from the same closes.</p>
+</div>
+
+<div class="visually-hidden" id="live" aria-live="polite"></div>
+
 <script src="vendor/sql-wasm.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/chart.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <style>
+    .bg { fill: #FBF8F1; } .ink { fill: #1B1A17; stroke: #1B1A17; } .acc { fill: #B83A0B; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #1A1916; } .ink { fill: #EFE9DC; stroke: #EFE9DC; } .acc { fill: #FF8047; }
+    }
+  </style>
+  <rect class="bg" x="0" y="0" width="48" height="48" rx="6"/>
+  <rect class="ink" x="3" y="3" width="42" height="42" rx="4" fill="none" stroke-width="3" style="fill:none"/>
+  <path class="ink" d="M10 36h28" stroke-width="2.5"/>
+  <rect class="ink" x="12" y="24" width="6" height="12" stroke-width="0"/>
+  <rect class="ink" x="21" y="17" width="6" height="19" stroke-width="0"/>
+  <rect class="acc" x="30" y="10" width="6" height="26"/>
+</svg>

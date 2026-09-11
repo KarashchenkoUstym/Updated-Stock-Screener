@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karashchenkoustym.github.io/Updated-Stock-Screener/sitemap.xml
