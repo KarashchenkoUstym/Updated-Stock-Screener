@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-26T04:17:55+00:00",
+ "generated_at": "2026-11-27T04:27:30+00:00",
  "source": "Yahoo Finance v8 chart API",
  "count": 104,
  "stocks": [
@@ -15,7 +15,7 @@
    "low_52w": 243.42,
    "pct_off_high": -1.45,
    "volatility": 24.96,
-   "avg_volume": 48048950,
+   "avg_volume": 48050456,
    "sma50": 343.05,
    "sma200": 304.4
   },
@@ -108,10 +108,10 @@
    "change_3m": -32.6,
    "change_1y": 24.49,
    "high_52w": 739.67,
-   "low_52w": 242.83,
+   "low_52w": 246.92,
    "pct_off_high": -57.93,
    "volatility": 66.45,
-   "avg_volume": 8788910,
+   "avg_volume": 8789530,
    "sma50": 420.06,
    "sma200": 447.15
   },
@@ -127,7 +127,7 @@
    "low_52w": 188.22,
    "pct_off_high": -38.34,
    "volatility": 75.27,
-   "avg_volume": 38207306,
+   "avg_volume": 38217013,
    "sma50": 548.35,
    "sma200": 432.96
   },
@@ -175,7 +175,7 @@
    "low_52w": 196.0,
    "pct_off_high": -14.89,
    "volatility": 34.51,
-   "avg_volume": 49357503,
+   "avg_volume": 49364273,
    "sma50": 255.12,
    "sma200": 245.78
   },
@@ -191,7 +191,7 @@
    "low_52w": 278.0,
    "pct_off_high": -39.22,
    "volatility": 49.13,
-   "avg_volume": 28915813,
+   "avg_volume": 28918900,
    "sma50": 340.55,
    "sma200": 367.31
   },
@@ -239,7 +239,7 @@
    "low_52w": 46.12,
    "pct_off_high": -25.59,
    "volatility": 22.59,
-   "avg_volume": 37078043,
+   "avg_volume": 37078400,
    "sma50": 52.06,
    "sma200": 54.6
   },
@@ -300,7 +300,7 @@
    "change_3m": -14.73,
    "change_1y": 10.57,
    "high_52w": 147.96,
-   "low_52w": 101.46,
+   "low_52w": 102.01,
    "pct_off_high": -23.4,
    "volatility": 30.19,
    "avg_volume": 9749906,
@@ -364,7 +364,7 @@
    "change_3m": 3.58,
    "change_1y": 55.04,
    "high_52w": 154.28,
-   "low_52w": 86.4,
+   "low_52w": 86.88,
    "pct_off_high": -12.48,
    "volatility": 31.66,
    "avg_volume": 7100170,
@@ -479,7 +479,7 @@
    "low_52w": 92.19,
    "pct_off_high": -0.54,
    "volatility": 26.66,
-   "avg_volume": 9633940,
+   "avg_volume": 9634300,
    "sma50": 111.51,
    "sma200": 104.28
   },
@@ -527,7 +527,7 @@
    "low_52w": 11.05,
    "pct_off_high": -31.55,
    "volatility": 36.42,
-   "avg_volume": 44721946,
+   "avg_volume": 44722336,
    "sma50": 12.19,
    "sma200": 13.19
   },
@@ -540,7 +540,7 @@
    "change_3m": -36.49,
    "change_1y": 15.18,
    "high_52w": 80.24,
-   "low_52w": 41.56,
+   "low_52w": 42.31,
    "pct_off_high": -39.49,
    "volatility": 50.45,
    "avg_volume": 14936906,
@@ -623,7 +623,7 @@
    "low_52w": 262.73,
    "pct_off_high": -33.16,
    "volatility": 33.61,
-   "avg_volume": 39590780,
+   "avg_volume": 39594753,
    "sma50": 318.24,
    "sma200": 336.32
   },
@@ -703,7 +703,7 @@
    "low_52w": 34.95,
    "pct_off_high": -61.74,
    "volatility": 87.07,
-   "avg_volume": 141293166,
+   "avg_volume": 141315593,
    "sma50": 87.7,
    "sma200": 87.66
   },
@@ -783,7 +783,7 @@
    "low_52w": 67.27,
    "pct_off_high": -2.95,
    "volatility": 19.15,
-   "avg_volume": 19632450,
+   "avg_volume": 19633136,
    "sma50": 92.31,
    "sma200": 84.17
   },
@@ -927,7 +927,7 @@
    "low_52w": 520.26,
    "pct_off_high": -21.79,
    "volatility": 42.58,
-   "avg_volume": 21288996,
+   "avg_volume": 21291290,
    "sma50": 672.42,
    "sma200": 627.53
   },
@@ -991,7 +991,7 @@
    "low_52w": 349.2,
    "pct_off_high": -12.38,
    "volatility": 34.04,
-   "avg_volume": 27028240,
+   "avg_volume": 27029103,
    "sma50": 519.55,
    "sma200": 444.89
   },
@@ -1007,7 +1007,7 @@
    "low_52w": 221.69,
    "pct_off_high": -52.09,
    "volatility": 87.42,
-   "avg_volume": 33580266,
+   "avg_volume": 33597546,
    "sma50": 895.48,
    "sma200": 776.48
   },
@@ -1036,10 +1036,10 @@
    "change_3m": -20.74,
    "change_1y": 12.06,
    "high_52w": 135.29,
-   "low_52w": 87.17,
+   "low_52w": 88.25,
    "pct_off_high": -25.02,
    "volatility": 49.17,
-   "avg_volume": 7445833,
+   "avg_volume": 7446526,
    "sma50": 114.37,
    "sma200": 111.63
   },
@@ -1055,7 +1055,7 @@
    "low_52w": 56.56,
    "pct_off_high": -45.86,
    "volatility": 35.8,
-   "avg_volume": 44581606,
+   "avg_volume": 44583703,
    "sma50": 66.24,
    "sma200": 79.59
   },
@@ -1071,7 +1071,7 @@
    "low_52w": 31.97,
    "pct_off_high": -46.98,
    "volatility": 37.63,
-   "avg_volume": 25670770,
+   "avg_volume": 25671730,
    "sma50": 36.64,
    "sma200": 43.7
   },
@@ -1087,7 +1087,7 @@
    "low_52w": 124.5,
    "pct_off_high": -38.65,
    "volatility": 52.27,
-   "avg_volume": 266812760,
+   "avg_volume": 266919246,
    "sma50": 203.65,
    "sma200": 202.87
   },
@@ -1119,7 +1119,7 @@
    "low_52w": 99.34,
    "pct_off_high": -58.49,
    "volatility": 61.45,
-   "avg_volume": 38099230,
+   "avg_volume": 38104793,
    "sma50": 130.11,
    "sma200": 152.44
   },
@@ -1135,7 +1135,7 @@
    "low_52w": 139.57,
    "pct_off_high": -17.62,
    "volatility": 52.41,
-   "avg_volume": 7348693,
+   "avg_volume": 7349803,
    "sma50": 366.18,
    "sma200": 284.24
   },
@@ -1167,7 +1167,7 @@
    "low_52w": 23.62,
    "pct_off_high": -9.48,
    "volatility": 21.51,
-   "avg_volume": 34664420,
+   "avg_volume": 34665660,
    "sma50": 28.85,
    "sma200": 27.04
   },
@@ -1247,7 +1247,7 @@
    "low_52w": 121.99,
    "pct_off_high": -35.11,
    "volatility": 56.57,
-   "avg_volume": 13835143,
+   "avg_volume": 13835976,
    "sma50": 176.23,
    "sma200": 170.96
   },
@@ -1340,7 +1340,7 @@
    "change_3m": -15.37,
    "change_1y": 36.06,
    "high_52w": 60.46,
-   "low_52w": 35.29,
+   "low_52w": 35.51,
    "pct_off_high": -19.75,
    "volatility": 36.94,
    "avg_volume": 11648070,
@@ -1487,7 +1487,7 @@
    "low_52w": 297.38,
    "pct_off_high": -23.79,
    "volatility": 47.02,
-   "avg_volume": 38009526,
+   "avg_volume": 38013723,
    "sma50": 377.17,
    "sma200": 381.15
   },
@@ -1516,7 +1516,7 @@
    "change_3m": 4.47,
    "change_1y": 63.4,
    "high_52w": 334.03,
-   "low_52w": 162.05,
+   "low_52w": 165.42,
    "pct_off_high": -19.11,
    "volatility": 47.82,
    "avg_volume": 9295733,
@@ -1535,7 +1535,7 @@
    "low_52w": 63.29,
    "pct_off_high": -28.49,
    "volatility": 35.11,
-   "avg_volume": 18981616,
+   "avg_volume": 18981963,
    "sma50": 68.57,
    "sma200": 72.27
   },
@@ -1647,7 +1647,7 @@
    "low_52w": 102.15,
    "pct_off_high": -2.38,
    "volatility": 25.96,
-   "avg_volume": 23396976,
+   "avg_volume": 23397526,
    "sma50": 118.03,
    "sma200": 119.03
   },
@@ -1660,7 +1660,7 @@
    "change_3m": 0.87,
    "change_1y": 37.74,
    "high_52w": 188.5,
-   "low_52w": 114.31,
+   "low_52w": 114.61,
    "pct_off_high": -16.14,
    "volatility": 27.43,
    "avg_volume": 14378130,
